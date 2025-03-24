@@ -1,0 +1,45 @@
+# 1️⃣ Ignore Node.js and Composer dependencies
+/node_modules
+/vendor
+
+# 2️⃣ Ignore build files from Vite or Mix
+/public/build
+/public/hot
+/public/storage
+
+# 3️⃣ Ignore storage and cache files
+/storage/*.key
+/storage/app/public
+/storage/framework/*
+/storage/logs/*
+/bootstrap/cache/*
+
+# 4️⃣ Ignore environment configuration files (Sensitive data)
+/.env
+/.env.backup
+/.env.production
+
+# 5️⃣ Ignore PHPUnit cache and testing files
+/.phpunit.cache
+/.phpunit.result.cache
+/.phpactor.json
+
+# 6️⃣ Ignore Homestead virtual machine configuration files
+/Homestead.json
+/Homestead.yaml
+
+# 7️⃣ Ignore IDE and editor-specific cache files
+/.idea
+/.vscode
+/.fleet
+/.nova
+/.zed
+
+# 8️⃣ Ignore logs and debug files
+/npm-debug.log
+/yarn-error.log
+/auth.json
+
+# 9️⃣ Ignore OS-specific and unnecessary files
+.DS_Store
+Thumbs.db
