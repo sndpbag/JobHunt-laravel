@@ -33,6 +33,6 @@
     </main>
 
       <!-- Footer -->
-  @include("../Layouts/footer");
+  @include("Layouts.footer");
 </body>
 </html>

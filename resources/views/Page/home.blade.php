@@ -1,6 +1,6 @@
 
  
-@extends('../Layouts/app')
+@extends('Layouts.app')
 
 
 @section("container")
