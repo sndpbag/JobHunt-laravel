@@ -45,6 +45,7 @@
 
       <!-- Main content area -->
       <div class="flex-1 flex flex-col">
+        <div class="flex-1 p-6">
         {{-- <!-- Top navbar for mobile -->
         <div class="bg-white shadow p-4 flex items-center justify-between md:hidden">
           <div class="flex items-center">
@@ -66,6 +67,7 @@
 
         <!-- Main content -->
          @yield("container")
+        </div>
       </div>
 
       <!-- Mobile sidebar (hidden by default) -->

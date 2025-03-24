@@ -25,17 +25,26 @@
       <nav class="flex-1 overflow-y-auto p-2">
         <ul class="space-y-1">
           <li>
-            <a href="#" class="flex items-center p-3 text-gray-300 hover:bg-gray-700 rounded-lg">
+            <a href="{{URL::to('/dashboard')}}" class="flex items-center p-3 text-gray-300 hover:bg-gray-700 rounded-lg">
               <i class="fas fa-home mr-3 text-lg"></i>
               <span>Dashboard</span>
             </a>
           </li>
           <li>
-            <a href="#" class="flex items-center p-3 text-gray-300 hover:bg-gray-700 rounded-lg">
+            <a href="{{URL::to('/dashboard/category')}}" class="flex items-center p-3 text-gray-300 hover:bg-gray-700 rounded-lg">
               <i class="fas fa-chart-bar mr-3 text-lg"></i>
-              <span>Analytics</span>
+              <span>Job Categery</span>
             </a>
           </li>
+
+          <li>
+            <a href="{{URL::to('/dashboard/create_job')}}" class="flex items-center p-3 text-gray-300 hover:bg-gray-700 rounded-lg">
+              <i class="fas fa-chart-bar mr-3 text-lg"></i>
+              <span>Create Job</span>
+            </a>
+          </li>
+
+
           <li>
             <a href="#" class="flex items-center p-3 text-gray-300 hover:bg-gray-700 rounded-lg">
               <i class="fas fa-users mr-3 text-lg"></i>

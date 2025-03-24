@@ -19,12 +19,21 @@ return new class extends Migration
             $table->decimal('salary_low', 10, 2)->nullable();
             $table->decimal('salary_high', 10, 2)->nullable();
             $table->string('role')->nullable();
+            
+        
+            $table->string('location_name');
+            // Corrected Foreign Key for category_id
             $table->foreignId('category_id')->constrained('job_categories')->onDelete('cascade');
-            $table->foreignId('location_id')->constrained('job_locations')->onDelete('cascade');
+        
             $table->text('description')->nullable();
             $table->integer('openings')->default(1);
-            $table->foreignId('education_id')->constrained('job_education')->onDelete('cascade');
+        
+            // Corrected Foreign Key for education_id
+            $table->foreignId('education_id')->constrained('job_educations')->onDelete('cascade');
+        
+            // Corrected Foreign Key for user_id
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+        
             $table->timestamp('date')->useCurrent();
             $table->timestamps();
         });

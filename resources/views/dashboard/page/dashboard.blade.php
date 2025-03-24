@@ -3,7 +3,7 @@
 
 
 @section("container")
-<div class="flex-1 p-6">
+
           <h1 class="text-3xl font-bold text-gray-800 mb-4">Welcome to the Dashboard</h1>
           <p class="text-gray-600 mb-6">Overview of your account and recent activities</p>
 
@@ -72,7 +72,7 @@
               <p class="py-4 text-gray-600">Your dashboard content goes here...</p>
             </div>
           </div>
-        </div>
+    
 
 
         @endsection
