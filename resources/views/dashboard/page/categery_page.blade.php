@@ -385,6 +385,7 @@
                                  timer: 1500
                              });
                              $("#category")[0].reset();
+                             fetchCategoryTable();
 
                          }
                          // Your success code here
@@ -413,8 +414,13 @@
              })
 
 
-             //   get all category for category table
+ 
+         })
 
+
+                     //   get all category for category table
+    function fetchCategoryTable()
+    {
              $.ajax({
                  url: "{{ route('get-category') }}",
                  type: "get",
@@ -484,6 +490,9 @@
 
                  },
              })
-         })
+            }
+
+
+         fetchCategoryTable();
      </script>
  @endsection
