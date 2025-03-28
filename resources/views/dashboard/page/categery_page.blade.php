@@ -27,7 +27,7 @@
                  <!-- Search and Filter -->
                  <div class="mb-6 flex items-center">
                      <div class="relative flex-grow">
-                         <input type="text" placeholder="Search categories..."
+                         <input type="text" id="search" placeholder="Search categories..."
                              class="w-full px-4 py-2 pl-10 pr-10 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent">
                          <svg xmlns="http://www.w3.org/2000/svg"
                              class="h-5 w-5 text-gray-400 absolute left-3 top-1/2 transform -translate-y-1/2" fill="none"
@@ -414,14 +414,25 @@
 
 
 
+
+            //  search function
+
+            $("#search").on("keyup",function(){
+                let  searchValue = $(this).val().toLowerCase();
+                fetchCategoryTable(1, searchValue)
+            })
+
+
+
          })
 
 
          //   get all category for category table
-         function fetchCategoryTable(page = 1) {
+         function fetchCategoryTable(page = 1, search=' ') {
              $.ajax({
                  url: `{{ route('get-category') }}?page=${page}`,
                  type: "get",
+                 data: {page:page, search:search} ,// for search keyword
                  dataType: "json",
                  success: function(response) {
 
@@ -485,7 +496,7 @@
 
 
                          });
-                        //  pagingion button functon
+                         //  pagingion button functon
                          updatePagination(response);
 
                          //pagination info and total page
@@ -541,17 +552,16 @@
          }
 
 
-        //  pagination info function
-        function updatePaginationInfo(response)
-        {
-            console.log(response);
-                let total_page = response.data.total || 0;
-                let from = response.data.from || 0;
-                let to = response.data.to || 0;
+         //  pagination info function
+         function updatePaginationInfo(response) {
+             console.log(response);
+             let total_page = response.data.total || 0;
+             let from = response.data.from || 0;
+             let to = response.data.to || 0;
 
-                $(".paginationInfo").text(`Showing ${from} to ${to} of ${total_page} entries`);
+             $(".paginationInfo").text(`Showing ${from} to ${to} of ${total_page} entries`);
 
-        }
+         }
 
 
          fetchCategoryTable();

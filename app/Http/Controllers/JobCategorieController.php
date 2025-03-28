@@ -55,9 +55,23 @@ class JobCategorieController extends Controller
 
 
 
-    public function fetch_category() {
-        $categories = job_categorie::latest()->paginate(4);
-      
+    public function fetch_category(Request $request) {
+
+//  Create a query builder to dynamically apply conditions
+        $query = job_categorie::query();
+
+        //  Check if a search query exists and is not empty
+        if($request->has('search') && !empty($request->search))
+        {
+              //  Apply search filter using SQL LIKE query on 'category_name' column
+            $query->where('category_name', 'LIKE', '%'.$request->search.'%');
+        }
+
+
+//  Apply pagination with latest (4 items per page)
+        $categories = $query->latest()->paginate(4);
+        
+       //  Return the data as JSON for AJAX requests
         return response()->json( ['status'=>true, 'data'=>$categories]);
     }
 }
