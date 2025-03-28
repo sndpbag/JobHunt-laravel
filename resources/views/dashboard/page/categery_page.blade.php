@@ -208,7 +208,7 @@
 
                  <!-- Pagination -->
                  <div class="mt-6 flex items-center justify-between">
-                     <div class="text-sm text-gray-600">Showing 1 to 3 of 12 entries</div>
+                     <div class="text-sm text-gray-600 paginationInfo"></div>
                      <div class="pagination flex space-x-1">
 
                          {{-- dynamic pagination button here --}}
@@ -480,13 +480,17 @@
                              </tr>
                         
                         
-                        `)
+                                `)
 
 
 
                          });
+                        //  pagingion button functon
+                         updatePagination(response);
 
-                         updatePagination(response)
+                         //pagination info and total page
+                         updatePaginationInfo(response);
+
                      }
 
                  },
@@ -497,29 +501,32 @@
          // make pagination
 
          function updatePagination(response) {
-      
+
 
              //  clear previous pagination
-            
+
              let pagination = $(".pagination");
              pagination.html('');
 
              //  previous button
              if (response.data.prev_page_url) {
                  pagination.append(
-                     ` <button onclick="fetchCategoryTable(${response.data.current_page - 1})" class="px-3 py-1 rounded bg-gray-100 text-gray-700 hover:bg-gray-200">Previous</button>`)
+                     ` <button onclick="fetchCategoryTable(${response.data.current_page - 1})" class="px-3 py-1 rounded bg-gray-100 text-gray-700 hover:bg-gray-200">Previous</button>`
+                 )
              }
              //  page number
-             
+
              response.data.links.forEach((link, index) => {
-               
+
                  //  skip first and last page button
                  if (index !== 0 && index !== response.data.links.length - 1)
 
                  {
                      let active = link.active ? 'bg-blue-500 text-white' :
                          'bg-gray-100 text-gray-700 hover:bg-gray-200';
-                     pagination.append(`  <button onclick="fetchCategoryTable(${link.url ? link.url.split('=')[1] : 1})" class="px-3 py-1 rounded ${active}" >${link.label}</button>`);
+                     pagination.append(
+                         `  <button onclick="fetchCategoryTable(${link.url ? link.url.split('=')[1] : 1})" class="px-3 py-1 rounded ${active}" >${link.label}</button>`
+                     );
                  }
              })
 
@@ -527,10 +534,24 @@
              // next button
              if (response.data.next_page_url) {
                  pagination.append(
-                     `<button onclick="fetchCategoryTable(${response.data.current_page + 1})" class="px-3 py-1 rounded bg-gray-100 text-gray-700 hover:bg-gray-200">Next</button>`)
+                     `<button onclick="fetchCategoryTable(${response.data.current_page + 1})" class="px-3 py-1 rounded bg-gray-100 text-gray-700 hover:bg-gray-200">Next</button>`
+                 )
              }
 
          }
+
+
+        //  pagination info function
+        function updatePaginationInfo(response)
+        {
+            console.log(response);
+                let total_page = response.data.total || 0;
+                let from = response.data.from || 0;
+                let to = response.data.to || 0;
+
+                $(".paginationInfo").text(`Showing ${from} to ${to} of ${total_page} entries`);
+
+        }
 
 
          fetchCategoryTable();
