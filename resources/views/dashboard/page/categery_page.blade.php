@@ -384,7 +384,7 @@
                                  showConfirmButton: false,
                                  timer: 1500
                              });
-                             $("#category").reset();
+                             $("#category")[0].reset();
 
                          }
                          // Your success code here
@@ -392,6 +392,7 @@
                      error: function(xhr, status, error) {
 
                          let errorMsg = xhr.responseJSON.errors;
+                         console.log(xhr.responseJSON);
                          let errorHtml = '';
                          for (let key in errorMsg) {
                              errorHtml += `<p>${errorMsg[key][0]}</p>`;
