@@ -65,8 +65,8 @@
                                      Actions</th>
                              </tr>
                          </thead>
-                         <tbody>
-                             <tr class="border-b border-gray-100 hover:bg-blue-50 transition-colors duration-200">
+                         <tbody id="table_body">
+                             {{-- <tr class="border-b border-gray-100 hover:bg-blue-50 transition-colors duration-200">
                                  <td class="px-4 py-4 text-gray-800 font-medium">#001</td>
                                  <td class="px-4 py-4">
                                      <div class="flex items-center">
@@ -201,7 +201,7 @@
                                          </button>
                                      </div>
                                  </td>
-                             </tr>
+                             </tr> --}}
                          </tbody>
                      </table>
                  </div>
@@ -224,8 +224,7 @@
          <div class="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100">
              <div class="bg-gradient-to-r from-indigo-500 to-purple-600 px-6 py-4">
                  <h2 class="text-xl font-bold text-white flex items-center">
-                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20"
-                         fill="currentColor">
+                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
                          <path fill-rule="evenodd"
                              d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
                              clip-rule="evenodd" />
@@ -266,8 +265,8 @@
                              <div class="grid grid-cols-5 gap-2">
                                  <div
                                      class="p-2 border rounded-lg cursor-pointer hover:bg-indigo-50 hover:border-indigo-300 flex items-center justify-center">
-                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-500"
-                                         fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-500" fill="none"
+                                         viewBox="0 0 24 24" stroke="currentColor">
                                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                              d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
                                      </svg>
@@ -357,6 +356,7 @@
          // Your JavaScript code here
          $(document).ready(function() {
 
+             //  send date for category subit
              $("#category").submit(function(event) {
                  event.preventDefault();
                  var datas = new FormData(this);
@@ -410,6 +410,79 @@
 
                      }
                  })
+             })
+
+
+             //   get all category for category table
+
+             $.ajax({
+                 url: "{{ route('get-category') }}",
+                 type: "get",
+                 dataType: "json",
+                 success: function(response) {
+                     let table = $("#table_body");
+                     table.html(''); // clear previews data before appending  new data
+                     if (response.status && response.data.data.length > 0) {
+                       let  category_data = response.data.data;
+                         category_data.forEach((element,index) => {
+
+                             table.append(`
+                        
+                          <tr class="border-b border-gray-100 hover:bg-blue-50 transition-colors duration-200">
+                                 <td class="px-4 py-4 text-gray-800 font-medium">#0${index+1}</td>
+                                 <td class="px-4 py-4">
+                                     <div class="flex items-center">
+                                         <div
+                                             class="h-10 w-10 flex-shrink-0 mr-3 bg-blue-100 text-blue-500 rounded-lg flex items-center justify-center">
+                                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
+                                                 viewBox="0 0 24 24" stroke="currentColor">
+                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                     d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                                             </svg>
+                                         </div>
+                                         <div>
+                                             <div class="font-medium text-gray-800">${element.category_name}</div>
+                                             <div class="text-gray-500 text-sm">Added on  ${new Date(element.created_at).toLocaleDateString()}</div>
+                                         </div>
+                                     </div>
+                                 </td>
+                                 <td class="px-4 py-4">
+                                     <span class="px-2 py-1 bg-green-100 text-green-800 rounded-full text-xs font-medium">32
+                                         Jobs</span>
+                                 </td>
+                                 <td class="px-4 py-4 text-center">
+                                     <div class="flex justify-center space-x-2">
+                                         <button
+                                             class="bg-blue-500 hover:bg-blue-600 text-white p-2 rounded-lg transition duration-300 tooltip-trigger">
+                                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
+                                                 viewBox="0 0 24 24" stroke="currentColor">
+                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                     d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                                             </svg>
+                                             
+                                         </button>
+                                         <button
+                                             class="bg-red-500 hover:bg-red-600 text-white p-2 rounded-lg transition duration-300 tooltip-trigger">
+                                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
+                                                 viewBox="0 0 24 24" stroke="currentColor">
+                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                     d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                             </svg>
+                                              
+                                         </button>
+                                     </div>
+                                 </td>
+                             </tr>
+                        
+                        
+                        `)
+
+
+
+                         });
+                     }
+
+                 },
              })
          })
      </script>
