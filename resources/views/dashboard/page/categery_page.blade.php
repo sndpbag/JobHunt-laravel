@@ -209,12 +209,11 @@
                  <!-- Pagination -->
                  <div class="mt-6 flex items-center justify-between">
                      <div class="text-sm text-gray-600">Showing 1 to 3 of 12 entries</div>
-                     <div class="flex space-x-1">
-                         <button class="px-3 py-1 rounded bg-gray-100 text-gray-700 hover:bg-gray-200">Previous</button>
-                         <button class="px-3 py-1 rounded bg-blue-500 text-white">1</button>
-                         <button class="px-3 py-1 rounded bg-gray-100 text-gray-700 hover:bg-gray-200">2</button>
-                         <button class="px-3 py-1 rounded bg-gray-100 text-gray-700 hover:bg-gray-200">3</button>
-                         <button class="px-3 py-1 rounded bg-gray-100 text-gray-700 hover:bg-gray-200">Next</button>
+                     <div class="pagination flex space-x-1">
+
+                         {{-- dynamic pagination button here --}}
+
+
                      </div>
                  </div>
              </div>
@@ -414,23 +413,23 @@
              })
 
 
- 
+
          })
 
 
-                     //   get all category for category table
-    function fetchCategoryTable()
-    {
+         //   get all category for category table
+         function fetchCategoryTable(page = 1) {
              $.ajax({
-                 url: "{{ route('get-category') }}",
+                 url: `{{ route('get-category') }}?page=${page}`,
                  type: "get",
                  dataType: "json",
                  success: function(response) {
+
                      let table = $("#table_body");
                      table.html(''); // clear previews data before appending  new data
                      if (response.status && response.data.data.length > 0) {
-                       let  category_data = response.data.data;
-                         category_data.forEach((element,index) => {
+                         let category_data = response.data.data;
+                         category_data.forEach((element, index) => {
 
                              table.append(`
                         
@@ -486,11 +485,52 @@
 
 
                          });
+
+                         updatePagination(response)
                      }
 
                  },
              })
-            }
+         }
+
+
+         // make pagination
+
+         function updatePagination(response) {
+      
+
+             //  clear previous pagination
+            
+             let pagination = $(".pagination");
+             pagination.html('');
+
+             //  previous button
+             if (response.data.prev_page_url) {
+                 pagination.append(
+                     ` <button onclick="fetchCategoryTable(${response.data.current_page - 1})" class="px-3 py-1 rounded bg-gray-100 text-gray-700 hover:bg-gray-200">Previous</button>`)
+             }
+             //  page number
+             
+             response.data.links.forEach((link, index) => {
+               
+                 //  skip first and last page button
+                 if (index !== 0 && index !== response.data.links.length - 1)
+
+                 {
+                     let active = link.active ? 'bg-blue-500 text-white' :
+                         'bg-gray-100 text-gray-700 hover:bg-gray-200';
+                     pagination.append(`  <button onclick="fetchCategoryTable(${link.url ? link.url.split('=')[1] : 1})" class="px-3 py-1 rounded ${active}" >${link.label}</button>`);
+                 }
+             })
+
+
+             // next button
+             if (response.data.next_page_url) {
+                 pagination.append(
+                     `<button onclick="fetchCategoryTable(${response.data.current_page + 1})" class="px-3 py-1 rounded bg-gray-100 text-gray-700 hover:bg-gray-200">Next</button>`)
+             }
+
+         }
 
 
          fetchCategoryTable();
