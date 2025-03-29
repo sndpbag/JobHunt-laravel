@@ -362,7 +362,7 @@
                 <div class="form-group">
                     <label for="category" class="block text-gray-700 font-medium mb-2">Category Name</label>
                     <div class="relative">
-                        <input type="text" name="category" placeholder="Enter category name"
+                        <input type="text" id="categoryField" name="category_name" placeholder="Enter category name"
                             class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-transparent">
                     </div>
                     <p class="text-gray-500 text-sm mt-1">Choose a unique name for this job category</p>
@@ -532,6 +532,7 @@
                                  <td class="px-4 py-4 text-center">
                                      <div class="flex justify-center space-x-2">
                                          <button data-id='${element.id}'
+                                                data-category='${element.category_name}'
                                              class="bg-blue-500 modals hover:bg-blue-600 text-white p-2 rounded-lg transition duration-300 tooltip-trigger">
                                              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
                                                  viewBox="0 0 24 24" stroke="currentColor">
@@ -687,6 +688,10 @@
         //  open modal 
         $(document).on('click','.modals',function(){
           let modalElement =  $("#categoryModal");
+          let category_id =  $(this).data('id');
+          let category_name = $(this).data('category');
+         
+          $("#categoryField").val(category_name);
           modalElement.remove('hidden').css(
            {
              'display': 'flex',
