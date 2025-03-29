@@ -74,4 +74,16 @@ class JobCategorieController extends Controller
        //  Return the data as JSON for AJAX requests
         return response()->json( ['status'=>true, 'data'=>$categories]);
     }
+
+
+
+    public function delete_category(Request $request)
+    {
+        $id = $request->id;
+        $category = job_categorie::find($id);
+        if ($category) {
+            $category ->delete();
+        }
+        return response()->json(['message'=> 'Record Deleted Successfully']);
+    }
 }

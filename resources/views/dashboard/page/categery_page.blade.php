@@ -355,6 +355,16 @@
          // Your JavaScript code here
          $(document).ready(function() {
 
+
+         //   <meta name="csrf-token" content="{{ csrf_token() }}"> this code include in header section
+
+                // CSRF token setup for all AJAX requests
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
              //  send date for category subit
              $("#category").submit(function(event) {
                  event.preventDefault();
@@ -415,12 +425,12 @@
 
 
 
-            //  search function
+             //  search function
 
-            $("#search").on("keyup",function(){
-                let  searchValue = $(this).val().toLowerCase();
-                fetchCategoryTable(1, searchValue)
-            })
+             $("#search").on("keyup", function() {
+                 let searchValue = $(this).val().toLowerCase();
+                 fetchCategoryTable(1, searchValue)
+             })
 
 
 
@@ -428,11 +438,14 @@
 
 
          //   get all category for category table
-         function fetchCategoryTable(page = 1, search=' ') {
+         function fetchCategoryTable(page = 1, search = ' ') {
              $.ajax({
                  url: `{{ route('get-category') }}?page=${page}`,
                  type: "get",
-                 data: {page:page, search:search} ,// for search keyword
+                 data: {
+                     page: page,
+                     search: search
+                 }, // for search keyword
                  dataType: "json",
                  success: function(response) {
 
@@ -477,8 +490,8 @@
                                              </svg>
                                              
                                          </button>
-                                         <button
-                                             class="bg-red-500 hover:bg-red-600 text-white p-2 rounded-lg transition duration-300 tooltip-trigger">
+                                         <button  data-id='${element.id}'
+                                             class="delete bg-red-500 hover:bg-red-600 text-white p-2 rounded-lg transition duration-300 tooltip-trigger">
                                              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
                                                  viewBox="0 0 24 24" stroke="currentColor">
                                                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -563,6 +576,64 @@
 
          }
 
+
+         //   delete method function
+         $(document).on('click', '.delete', function() {
+             let id = $(this).data('id');
+
+             Swal.fire({
+                 title: "Are you sure?",
+                 text: "You won't be able to revert this!",
+                 icon: "warning",
+                 showCancelButton: true,
+                 confirmButtonColor: "#3085d6",
+                 cancelButtonColor: "#d33",
+                 confirmButtonText: "Yes, delete it!"
+             }).then((result) => {
+                 if (result.isConfirmed) {
+
+
+                    $.ajax({
+                         url :`{{ route('category.delete', ':id') }}`.replace(':id', id),
+                         
+                        
+                      type: "DELETE",
+                      success: function(response) {
+                        fetchCategoryTable();
+                        Swal.fire({
+                         title: "Deleted!",
+                         text: response.message,
+                         icon: "success"
+                     });
+
+                      },
+
+                      error: function(xhr,status, errors)
+                      {
+                        console.log(xhr.responseJSON);
+                        console.log(status);
+                        console.log(errors);
+                        Swal.fire({
+                          title: "Error!",
+                          text: "An error occurred while deleting the category.",
+                          icon: "error"
+                        });
+                      }
+                    })
+
+
+
+
+
+                   
+                 }
+             });
+
+         })
+
+        //   delete method function end
+
+        
 
          fetchCategoryTable();
      </script>
