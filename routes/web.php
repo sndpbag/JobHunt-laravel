@@ -16,3 +16,4 @@ Route::view('/dashboard/category',"dashboard.page.categery_page");
 Route::post('/dashboard/category/create',[JobCategorieController::class, 'jobCategrey_create'])->name('dashboard.category.create');
 Route::get("/dashboard/category/get",[JobCategorieController::class,'fetch_category'])->name('get-category');
 Route::delete("/category/delete/{id}",[JobCategorieController::class,'delete_category']) -> name('category.delete');
+Route::put("/dashboard/category/update/{id}",[JobCategorieController::class,'update_category']) -> name('dashboard.category.update');

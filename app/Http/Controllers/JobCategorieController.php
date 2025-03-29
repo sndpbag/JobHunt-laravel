@@ -76,6 +76,7 @@ class JobCategorieController extends Controller
     }
 
 
+    //  delte category
 
     public function delete_category(Request $request)
     {
@@ -86,4 +87,37 @@ class JobCategorieController extends Controller
         }
         return response()->json(['message'=> 'Record Deleted Successfully']);
     }
+
+    //  update categroy
+    public function update_category(Request $request)
+    {
+
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'category_name' => "required|string|max:33|unique:job_categories,category_name,".$request->cat_id,
+            ],
+            ['category_name.required' => 'The category name field is required.',
+                'category_name.string' => 'The category name must be a string.',
+                'category_name.max' => 'The category name cannot exceed 30 characters.',
+                'category_name.unique' => 'The category name has already been taken.'
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        $id = $request->cat_id;
+        $category = job_categorie::find($id);
+
+        if ($category)
+        {
+            $category->category_name = $request->category_name;
+            $category->save();
+        }
+
+        return response()->json([ "status"=> true,  "message"=> "Category Updated"]);
+    }
+
+
+
 }

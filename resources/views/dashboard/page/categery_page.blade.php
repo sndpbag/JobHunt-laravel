@@ -353,73 +353,76 @@
      {{--  this model for edit category data --}}
 
      <div id="categoryModal" class="fixed inset-0 bg-black/50 hidden">
-        <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-md relative">
-            <button onclick="closeModal()" class="absolute top-2 right-2 text-gray-500 hover:text-gray-700">
-                &times;
-            </button>
-            <form id="category" class="w-full space-y-6">
-                @csrf
-                <div class="form-group">
-                    <label for="category" class="block text-gray-700 font-medium mb-2">Category Name</label>
-                    <div class="relative">
-                        <input type="text" id="categoryField" name="category_name" placeholder="Enter category name"
-                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-transparent">
-                    </div>
-                    <p class="text-gray-500 text-sm mt-1">Choose a unique name for this job category</p>
-                </div>
-    
-                <div class="form-group">
-                    <label for="description" class="block text-gray-700 font-medium mb-2">Description (Optional)</label>
-                    <textarea name="description" rows="3" placeholder="Enter category description"
-                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-transparent"></textarea>
-                </div>
-    
-                <div class="form-group">
-                    <label for="icon" class="block text-gray-700 font-medium mb-2">Icon</label>
-                    <div class="grid grid-cols-5 gap-2">
-                        <div class="p-2 border rounded-lg cursor-pointer hover:bg-indigo-50 hover:border-indigo-300 flex items-center justify-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-500" fill="none"
-                                viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
-                            </svg>
-                        </div>
-                        <!-- More icons -->
-                    </div>
-                </div>
-    
-                <div class="form-group pt-4">
-                    <button type="submit"
-                        class="w-full bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white font-bold py-3 px-4 rounded-lg shadow-lg transform transition-all duration-300 hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                        Create Category
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-    
- 
+         <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-md relative">
+             <button onclick="closeModal()" class="absolute top-2 right-2 text-gray-500 hover:text-gray-700">
+                 &times;
+             </button>
+             <form id="edit_category" class="w-full space-y-6">
+                 @csrf
+                 <input type="hidden" id="cat_id" name="cat_id">
+                 <div class="form-group">
+                     <label for="category" class="block text-gray-700 font-medium mb-2">Category Name</label>
+                     <div class="relative">
+                         <input type="text" id="categoryField" name="category_name" placeholder="Enter category name"
+                             class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-transparent">
+                     </div>
+                     <p class="text-gray-500 text-sm mt-1">Choose a unique name for this job category</p>
+                 </div>
+
+                 <div class="form-group">
+                     <label for="description" class="block text-gray-700 font-medium mb-2">Description (Optional)</label>
+                     <textarea name="description" rows="3" placeholder="Enter category description"
+                         class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-transparent"></textarea>
+                 </div>
+
+                 <div class="form-group">
+                     <label for="icon" class="block text-gray-700 font-medium mb-2">Icon</label>
+                     <div class="grid grid-cols-5 gap-2">
+                         <div
+                             class="p-2 border rounded-lg cursor-pointer hover:bg-indigo-50 hover:border-indigo-300 flex items-center justify-center">
+                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-500" fill="none"
+                                 viewBox="0 0 24 24" stroke="currentColor">
+                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                     d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                             </svg>
+                         </div>
+                         <!-- More icons -->
+                     </div>
+                 </div>
+
+                 <div class="form-group pt-4">
+                     <button type="submit"
+                         class="w-full bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white font-bold py-3 px-4 rounded-lg shadow-lg transform transition-all duration-300 hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                         Create Category
+                     </button>
+                 </div>
+             </form>
+         </div>
+     </div>
+
+
 
 
      <script>
          // Your JavaScript code here
+
          $(document).ready(function() {
 
 
-         //   <meta name="csrf-token" content="{{ csrf_token() }}"> this code include in header section
+             //   <meta name="csrf-token" content="{{ csrf_token() }}"> this code include in header section
 
-                // CSRF token setup for all AJAX requests
-    $.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        }
-    });
+             // CSRF token setup for all AJAX requests
+             $.ajaxSetup({
+                 headers: {
+                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                 }
+             });
 
              //  send date for category subit
              $("#category").submit(function(event) {
                  event.preventDefault();
                  var datas = new FormData(this);
-                 console.log(datas)
+
                  $.ajax({
                      url: "{{ route('dashboard.category.create') }}",
                      type: "post",
@@ -480,6 +483,65 @@
              $("#search").on("keyup", function() {
                  let searchValue = $(this).val().toLowerCase();
                  fetchCategoryTable(1, searchValue)
+             })
+
+
+             //   update data with put
+             $("#edit_category").submit(function(event) {
+                 event.preventDefault();
+                 let edit_data = new FormData(this);
+                 let cat_id = $("#cat_id").val();
+                 console.log(cat_id);
+
+                 // 🔥 FormData-এর ভিতরের Data দেখতে:
+                 //  for (let pair of edit_data.entries()) {
+                 //      console.log(pair[0] + ": " + pair[1]);
+                 //  }
+
+                 //Add _method to support Laravel PUT requests.
+                 edit_data.append('_method', 'PUT');
+
+                 $.ajax({
+
+                     url: `{{ route('dashboard.category.update', ':id') }}`.replace(':id', cat_id),
+                     //  type: "put",
+                     type: "POST", // To make a Laravel PUT request, send _method: PUT using POST.
+                     data: edit_data,
+                     dataType: "json",
+                     contentType: false,
+                     processData: false,
+                     success: function(response) {
+                         if (response.status) {
+                             Swal.fire({
+                                 position: "top-end",
+                                 icon: "success",
+                                 title: response.message,
+                                 showConfirmButton: false,
+                                 timer: 1500
+                             });
+                         }
+                     },
+                     error: function(xhr, status, error) {
+                         let errorMsg = xhr.responseJSON.errors;
+                         let errorHtml = '';
+                         for (let key in errorMsg) {
+                             errorHtml += `<p>${errorMsg[key][0]}</p>`;
+                         }
+                         Swal.fire({
+                             position: "top-end",
+                             icon: "error",
+                             title: errorHtml,
+                             showConfirmButton: false,
+                             timer: 1500
+                         });
+                     }
+
+
+
+                 })
+
+
+
              })
 
 
@@ -644,73 +706,73 @@
                  if (result.isConfirmed) {
 
 
-                    $.ajax({
-                         url :`{{ route('category.delete', ':id') }}`.replace(':id', id),
-                         
-                        
-                      type: "DELETE",
-                      success: function(response) {
-                        fetchCategoryTable();
-                        Swal.fire({
-                         title: "Deleted!",
-                         text: response.message,
-                         icon: "success"
-                     });
+                     $.ajax({
+                         url: `{{ route('category.delete', ':id') }}`.replace(':id', id),
 
-                      },
 
-                      error: function(xhr,status, errors)
-                      {
-                        console.log(xhr.responseJSON);
-                        console.log(status);
-                        console.log(errors);
-                        Swal.fire({
-                          title: "Error!",
-                          text: "An error occurred while deleting the category.",
-                          icon: "error"
-                        });
-                      }
-                    })
+                         type: "DELETE",
+                         success: function(response) {
+                             fetchCategoryTable();
+                             Swal.fire({
+                                 title: "Deleted!",
+                                 text: response.message,
+                                 icon: "success"
+                             });
 
+                         },
+
+                         error: function(xhr, status, errors) {
+                             console.log(xhr.responseJSON);
+                             console.log(status);
+                             console.log(errors);
+                             Swal.fire({
+                                 title: "Error!",
+                                 text: "An error occurred while deleting the category.",
+                                 icon: "error"
+                             });
+                         }
+                     })
 
 
 
 
-                   
+
+
                  }
              });
 
          })
 
-        //   delete method function end
+         //   delete method function end
 
 
-        //  open modal 
-        $(document).on('click','.modals',function(){
-          let modalElement =  $("#categoryModal");
-          let category_id =  $(this).data('id');
-          let category_name = $(this).data('category');
-         
-          $("#categoryField").val(category_name);
-          modalElement.remove('hidden').css(
-           {
-             'display': 'flex',
-             'justify-content': 'center',
-             'align-items': 'center',
-           
+         //  open modal 
+         $(document).on('click', '.modals', function() {
+             let modalElement = $("#categoryModal");
 
-           }
-          );
-        })
+             //  get data with btn    
+             let category_id = $(this).data('id');
+             let category_name = $(this).data('category');
+             //  show data input field for edit category
+             $("#categoryField").val(category_name);
+             $("#cat_id").val(category_id);
 
-        //close model when click cross sing
-        function closeModal()
-        {
-            let modalElement =  $("#categoryModal");
-            modalElement.addClass('hidden').css({
-                'display': 'none',
-            });
-        }
+             modalElement.remove('hidden').css({
+                 'display': 'flex',
+                 'justify-content': 'center',
+                 'align-items': 'center',
+
+
+             });
+         })
+
+         //close model when click cross sing
+         function closeModal() {
+             let modalElement = $("#categoryModal");
+             modalElement.addClass('hidden').css({
+                 'display': 'none',
+             });
+         }
 
 
 
