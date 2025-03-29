@@ -350,6 +350,56 @@
      </div>
 
 
+     {{--  this model for edit category data --}}
+
+     <div id="categoryModal" class="fixed inset-0 bg-black/50 hidden">
+        <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-md relative">
+            <button onclick="closeModal()" class="absolute top-2 right-2 text-gray-500 hover:text-gray-700">
+                &times;
+            </button>
+            <form id="category" class="w-full space-y-6">
+                @csrf
+                <div class="form-group">
+                    <label for="category" class="block text-gray-700 font-medium mb-2">Category Name</label>
+                    <div class="relative">
+                        <input type="text" name="category" placeholder="Enter category name"
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-transparent">
+                    </div>
+                    <p class="text-gray-500 text-sm mt-1">Choose a unique name for this job category</p>
+                </div>
+    
+                <div class="form-group">
+                    <label for="description" class="block text-gray-700 font-medium mb-2">Description (Optional)</label>
+                    <textarea name="description" rows="3" placeholder="Enter category description"
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-transparent"></textarea>
+                </div>
+    
+                <div class="form-group">
+                    <label for="icon" class="block text-gray-700 font-medium mb-2">Icon</label>
+                    <div class="grid grid-cols-5 gap-2">
+                        <div class="p-2 border rounded-lg cursor-pointer hover:bg-indigo-50 hover:border-indigo-300 flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-500" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                            </svg>
+                        </div>
+                        <!-- More icons -->
+                    </div>
+                </div>
+    
+                <div class="form-group pt-4">
+                    <button type="submit"
+                        class="w-full bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white font-bold py-3 px-4 rounded-lg shadow-lg transform transition-all duration-300 hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        Create Category
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+ 
+
 
      <script>
          // Your JavaScript code here
@@ -481,8 +531,8 @@
                                  </td>
                                  <td class="px-4 py-4 text-center">
                                      <div class="flex justify-center space-x-2">
-                                         <button
-                                             class="bg-blue-500 hover:bg-blue-600 text-white p-2 rounded-lg transition duration-300 tooltip-trigger">
+                                         <button data-id='${element.id}'
+                                             class="bg-blue-500 modals hover:bg-blue-600 text-white p-2 rounded-lg transition duration-300 tooltip-trigger">
                                              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
                                                  viewBox="0 0 24 24" stroke="currentColor">
                                                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -633,7 +683,31 @@
 
         //   delete method function end
 
-        
+
+        //  open modal 
+        $(document).on('click','.modals',function(){
+          let modalElement =  $("#categoryModal");
+          modalElement.remove('hidden').css(
+           {
+             'display': 'flex',
+             'justify-content': 'center',
+             'align-items': 'center',
+           
+
+           }
+          );
+        })
+
+        //close model when click cross sing
+        function closeModal()
+        {
+            let modalElement =  $("#categoryModal");
+            modalElement.addClass('hidden').css({
+                'display': 'none',
+            });
+        }
+
+
 
          fetchCategoryTable();
      </script>
